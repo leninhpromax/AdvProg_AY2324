@@ -45,10 +45,19 @@ vector<string> filterWordsByLen(int wordLen, const vector<string>& vocabulary)
 
 char nextCharWhenWordIsNotInDictionary(const set<char>& selectedChars)
 {
-    char answer;
-    //Write your code here
-    if (!selectedChars.emty()){
-
+      char answer = 'a';
+    if (!selectedChars.empty()) {
+        char c = *selectedChars.rbegin();
+        answer = c + 1;
+        if (answer > 'z') {
+            answer = 'a';
+        }
+        while (selectedChars.find(answer) != selectedChars.end()) {
+            answer++;
+            if (answer > 'z') {
+                answer = 'a';
+            }
+        }
     }
     return answer;
 }
@@ -106,6 +115,7 @@ char findBestChar(const vector<string>& candidateWords, const set<char>& selecte
 {
     char answer;
     //Write your code here
+    
 
     return answer;
 }
@@ -151,14 +161,12 @@ bool isCorrectChar(char ch, const string& mask)
 ***/
 bool isWholeWord(const string& mask)
 {
-     bool answer = true;
-    //Write your code here
-    for (char c : mask){
-        if ( c < 'a' || c > 'z'){
-            answer = false;
+    for (char c : mask) {
+        if (c != '-' && (c < 'a' || c > 'z')) {
+            return false;
         }
     }
-    return answer;
+    return true;
 }
 
 /***
@@ -183,7 +191,7 @@ bool wordConformToMask(const string& word, const string& mask, char ch)
 
   for (int i = 0; i < word.length(); ++i) {
     if (mask[i] != '-' && mask[i] != word[i]) {
-      answer false;
+      answer = false;
     }
   }
     return answer;

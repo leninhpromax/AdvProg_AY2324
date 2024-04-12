@@ -167,12 +167,18 @@ bool isCorrectChar(char ch, const string& mask)
 ***/
 bool isWholeWord(const string& mask)
 {
+    bool answer = false;
     for (char c : mask) {
-        if (c != '-' && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
-            return false;
+        if (c == '-') {
+            continue; // Bỏ qua ký tự '-'
+        }
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+            answer = true;
+        } else {
+            return false; // Trả về false nếu ký tự không phải là một ký tự chữ cái hoặc '-'
         }
     }
-    return true;
+    return answer; // Trả về true nếu mask chứa ít nhất một ký tự chữ cái và không chứa ký tự không hợp lệ khác
 }
 
 /***

@@ -1,4 +1,5 @@
 #include "simpleai.h"
+#include <map>
 
 int readMaxGuess()
 {
@@ -113,11 +114,16 @@ char findMostFrequentChar(const map<char, int>& occurrences, const set<char>& se
 
 char findBestChar(const vector<string>& candidateWords, const set<char>& selectedChars)
 {
-    char answer;
+    char answer = 'a';
     //Write your code here
-    
+// Đếm số lần xuất hiện của mỗi ký tự trong danh sách từ ứng viên
+map<char, int> occurrences = countOccurrences(candidateWords);
 
-    return answer;
+// Tìm ký tự xuất hiện nhiều nhất trong occurrences mà chưa được dự đoán
+answer = findMostFrequentChar(occurrences, selectedChars);
+
+// Trả về ký tự được chọn làm kết quả của hàm findBestChar
+return answer;
 }
 
 string getWordMask(char nextChar)

@@ -168,7 +168,10 @@ bool isCorrectChar(char ch, const string& mask)
 bool isWholeWord(const string& mask)
 {
     for (char ch : mask) {
-        if (ch != '-' && (ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z')) {
+        if (ch == '-' ){
+            return false;
+        }
+        else if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z')){
             return false;
         }
     }

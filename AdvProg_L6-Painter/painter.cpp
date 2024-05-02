@@ -51,7 +51,8 @@ void Painter::jumpBackward(int numPixel)
 void Painter::turnLeft(double degree)
 {
     // TODO: rotate left the painter 
-    angle += degree;  
+    double radian = degree * M_PI / 180.0;
+    angle += radian;  
 }
 
 
@@ -64,7 +65,8 @@ void Painter::turnLeft(double degree)
 void Painter::turnRight(double degree)
 {
     // TODO: rotate right the painter   
-    angle -= degree;
+    double radian = degree * M_PI / 180.0;
+    angle -= radian;
 }
 
 /***  

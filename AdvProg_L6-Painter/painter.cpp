@@ -51,9 +51,7 @@ void Painter::jumpBackward(int numPixel)
 void Painter::turnLeft(double degree)
 {
     // TODO: rotate left the painter 
-   angle -= degree;
-    if (angle < 0)
-        angle += 360;
+    angle = (angle - degree + 360) % 360;
     double radianAngle = angle * M_PI / 180.0;
     x += static_cast<int>(cos(radianAngle));
     y += static_cast<int>(sin(radianAngle));
@@ -69,9 +67,7 @@ void Painter::turnLeft(double degree)
 void Painter::turnRight(double degree)
 {
     // TODO: rotate right the painter   
-    angle += degree;
-    if (angle >= 360)
-        angle -= 360;
+    angle = (angle + degree) % 360;
      double radianAngle = angle * M_PI / 180.0;
     x += static_cast<int>(cos(radianAngle));
     y += static_cast<int>(sin(radianAngle));

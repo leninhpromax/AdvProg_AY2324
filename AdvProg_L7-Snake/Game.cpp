@@ -52,13 +52,12 @@ Game::~Game()
 
 void Game::snakeMoveTo(Position pos) {
 	//  START CODE HERE
-        if (squares[pos.y][pos.x] == CELL_EMPTY || squares[pos.y][pos.x] == CELL_CHERRY) {
+         if (squares[pos.y][pos.x] == CELL_EMPTY || squares[pos.y][pos.x] == CELL_CHERRY) {
             if (squares[pos.y][pos.x] == CELL_CHERRY) {
                 score++;
                 addCherry();
             }
             squares[pos.y][pos.x] = CELL_SNAKE;
-            snake.move(pos);
         } else {
             status = GAME_OVER;
         }
@@ -136,7 +135,7 @@ void Game::nextStep()
 {
 	while (!inputQueue.empty()) {
 		// get the input direction from input queue
-         Direction next = inputQueue.front();
+        Direction next = inputQueue.front();
         inputQueue.pop();
 
 		// remove the front of input queue
@@ -144,12 +143,12 @@ void Game::nextStep()
 
 		// check if snake can move to the next direction, set current direction as next
         if (canChange(currentDirection, next)) {
-        	currentDirection = next;
+            currentDirection = next;
             break;
-		}
+        }
     }
 
-    snake.move(currentDirection);
+   snake.move(currentDirection);
 }
 
 
@@ -173,13 +172,10 @@ void Game::addCherry()
         int randomX = rand() % width;
         int randomY = rand() % height;
 		// check if the randomPos is EMPTY 
-        if (getCellType(randomPos) == CELL_EMPTY) {
-
-        	// assign the cherry position as randomPos, and set randomPos type as CELL_CHERRY
+        if (getCellType(Position(randomX, randomY)) == CELL_EMPTY) {
             squares[randomY][randomX] = CELL_CHERRY;
             cherryPosition = Position(randomX, randomY);
             break;
-       		break;
         }
     } while (true);
 }

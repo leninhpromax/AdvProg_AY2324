@@ -54,9 +54,22 @@ void Snake::growAtFront(Position newPosition)
     // head of snake grow at new position
 	
     /* YOUR CODE HERE */
+    // Đầu rắn mọc tại vị trí mới
     SnakeNode* newHead = new SnakeNode(newPosition);
     newHead->next = head;
     head = newHead;
+
+    // Nếu rắn mọc dài hơn độ dài ban đầu,
+    // tách và xóa nút đuôi
+    if (length > initialLength) {
+        SnakeNode* tailToDelete = tail;
+        tail = tail->prev;
+        delete tailToDelete;
+    } else {
+        // Nếu vẫn nằm trong độ dài ban đầu, tăng độ dài
+        length++;
+    }
+
     game.snakeMoveTo(newPosition);
 }
 

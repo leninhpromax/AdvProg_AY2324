@@ -52,10 +52,16 @@ Game::~Game()
 
 void Game::snakeMoveTo(Position pos) {
 	//  START CODE HERE
-	//
-	//
-	//
-	//
+        if (squares[pos.y][pos.x] == CELL_EMPTY || squares[pos.y][pos.x] == CELL_CHERRY) {
+            if (squares[pos.y][pos.x] == CELL_CHERRY) {
+                score++;
+                addCherry();
+            }
+            squares[pos.y][pos.x] = CELL_SNAKE;
+            snake.move(pos);
+        } else {
+            status = GAME_OVER;
+        }
 	// END CODE HERE
 }
 
@@ -74,9 +80,7 @@ void Game::snakeLeave(Position position)
 {
 	// Suggestion: use setCellType() method in Game class
 	// START CODE HERE
-	//  
-	//
-	//
+	 squares[position.y][position.x] = CELL_EMPTY;
 	// END CODE HERE
 }
 
@@ -103,9 +107,13 @@ void Game::processUserInput(Direction direction)
  * 
  ***/
 bool Game::canChange(Direction current, Direction next) const {
-	if (current == UP || current == DOWN) 
-		return 0; // YOUR CODE HERE
-	return 0;// YOUR CODE HERE
+	 if ((current == UP || current == DOWN) && (next == UP || next == DOWN)) {
+        return false;
+    }
+    if ((current == LEFT || current == RIGHT) && (next == LEFT || next == RIGHT)) {
+        return false;
+    }
+    return true;
 }
 
 
@@ -128,15 +136,16 @@ void Game::nextStep()
 {
 	while (!inputQueue.empty()) {
 		// get the input direction from input queue
-        Direction next ; // YOUR CODE HERE
+         Direction next = inputQueue.front();
+        inputQueue.pop();
 
 		// remove the front of input queue
         // YOUR CODE HERE
 
 		// check if snake can move to the next direction, set current direction as next
         if (canChange(currentDirection, next)) {
-        	// YOUR CODE HERE
-        	break;
+        	currentDirection = next;
+            break;
 		}
     }
 
@@ -161,17 +170,15 @@ void Game::addCherry()
     do {
 		// init a random position inside the play screen (width, height)
 		// Suggestion: use rand() function
-
-        Position randomPos; // YOUR CODE HERE
-		
+        int randomX = rand() % width;
+        int randomY = rand() % height;
 		// check if the randomPos is EMPTY 
         if (getCellType(randomPos) == CELL_EMPTY) {
 
         	// assign the cherry position as randomPos, and set randomPos type as CELL_CHERRY
-
-			// YOUR CODE HERE
-			// YOUR CODE HERE
-
+            squares[randomY][randomX] = CELL_CHERRY;
+            cherryPosition = Position(randomX, randomY);
+            break;
        		break;
         }
     } while (true);
@@ -197,7 +204,7 @@ void Game::setCellType(Position pos, CellType cellType)
 	// Suggestion: use pos.isInsideBox(...) in Position class
 	//
 	// START CODE HERE
-	//  
+	squares[pos.y][pos.x] = cellType;
 	// END CODE HERE
 }
 

@@ -1,4 +1,5 @@
 #include "simpleai.h"
+#include <map>
 
 int readMaxGuess()
 {
@@ -27,6 +28,11 @@ int readWordLen()
 vector<string> filterWordsByLen(int wordLen, const vector<string>& vocabulary)
 {
     vector<string> answer;
+    for ( const string& c : vocabulary){
+        if (c.length() == wordLen){
+            answer.push_back(c);
+        }
+    }
     //Write your code here
     return answer;
 }
@@ -40,8 +46,20 @@ vector<string> filterWordsByLen(int wordLen, const vector<string>& vocabulary)
 
 char nextCharWhenWordIsNotInDictionary(const set<char>& selectedChars)
 {
-    char answer;
-    //Write your code here
+      char answer = 'a';
+    if (!selectedChars.empty()) {
+        char c = *selectedChars.rbegin();
+        answer = c + 1;
+        if (answer > 'z') {
+            answer = 'a';
+        }
+        while (selectedChars.find(answer) != selectedChars.end()) {
+            answer++;
+            if (answer > 'z') {
+                answer = 'a';
+            }
+        }
+    }
     return answer;
 }
 
@@ -56,6 +74,11 @@ map<char, int> countOccurrences(const vector<string>& candidateWords)
 {
     map<char, int> answer;
     //Write your code here
+    for (const string& c : candidateWords) {
+        for (char ch : c) {
+            answer[ch]++;
+        }
+    }
     return answer;
 }
 
@@ -71,6 +94,13 @@ char findMostFrequentChar(const map<char, int>& occurrences, const set<char>& se
 {
     char answer;
     //Write your code here
+    int max1 = 0;
+    for (const auto& c : occurrences) {
+        if (c.second > max1 && selectedChars.find(c.first) == selectedChars.end()) {
+            answer = c.first;
+            max1 = c.second;
+        }
+    }
     return answer;
 }
 
@@ -84,9 +114,16 @@ char findMostFrequentChar(const map<char, int>& occurrences, const set<char>& se
 
 char findBestChar(const vector<string>& candidateWords, const set<char>& selectedChars)
 {
-    char answer;
+    char answer = 'a';
     //Write your code here
-    return answer;
+// Đếm số lần xuất hiện của mỗi ký tự trong danh sách từ ứng viên
+map<char, int> occurrences = countOccurrences(candidateWords);
+
+// Tìm ký tự xuất hiện nhiều nhất trong occurrences mà chưa được dự đoán
+answer = findMostFrequentChar(occurrences, selectedChars);
+
+// Trả về ký tự được chọn làm kết quả của hàm findBestChar
+return answer;
 }
 
 string getWordMask(char nextChar)
@@ -108,8 +145,15 @@ string getWordMask(char nextChar)
 
 bool isCorrectChar(char ch, const string& mask)
 {
-    bool answer;
+    bool answer = false;
     //Write your code here
+    for (char c : mask){
+        if (ch == c){
+            answer = true;
+            break;
+        }
+    }
+
     return answer;
 }
 
@@ -123,9 +167,15 @@ bool isCorrectChar(char ch, const string& mask)
 ***/
 bool isWholeWord(const string& mask)
 {
-     bool answer;
-    //Write your code here
-    return answer;
+    for (char ch : mask) {
+        if (ch == '-' ){
+            return false;
+        }
+        else if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z')){
+            return false;
+        }
+    }
+    return true;
 }
 
 /***
@@ -142,8 +192,17 @@ bool isWholeWord(const string& mask)
 ***/
 bool wordConformToMask(const string& word, const string& mask, char ch) 
 {
-    bool answer;
+    bool answer = true;
     //Write your code here
+     if (word.length() != mask.length()) {
+    answer = false;
+  }
+
+  for (int i = 0; i < word.length(); ++i) {
+    if (mask[i] != '-' && mask[i] != word[i]) {
+      answer = false;
+    }
+  }
     return answer;
 }
 
@@ -163,5 +222,10 @@ vector<string> filterWordsByMask(const vector<string>& words, const string& mask
 {
     vector<string> answer;
     //Write your code here
+    for (const string& word : words) {
+    if (wordConformToMask(word, mask, ch)) {
+      answer.push_back(word);
+    }
+  }
     return answer;
 }

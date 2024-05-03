@@ -37,7 +37,7 @@ void Painter::jumpForward(int numPixel)
 void Painter::jumpBackward(int numPixel)
 {
     // TODO: jump the painter backward
-     x += static_cast<int>(- numPixel * cos(angle * M_PI / 180));
+    x += static_cast<int>(- numPixel * cos(angle * M_PI / 180));
     y -= static_cast<int>(- numPixel * sin(angle * M_PI / 180));
 }
 
@@ -51,7 +51,7 @@ void Painter::jumpBackward(int numPixel)
 void Painter::turnLeft(double degree)
 {
     // TODO: rotate left the painter 
-   angle += degree;
+   angle -= degree;
 }
 
 
@@ -64,7 +64,7 @@ void Painter::turnLeft(double degree)
 void Painter::turnRight(double degree)
 {
     // TODO: rotate right the painter   
-    angle -= degree;
+    angle += degree;
 }
 
 /***  
